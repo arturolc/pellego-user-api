@@ -19,6 +19,15 @@ parser = reqparse.RequestParser()
 #Gets the User first and last name given an email
 class GetUser(Resource):
     def get(self, email):
+        # do a simple query to check if MySQL connection is open
+        try:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("Select 1")
+            cursor.fetchall()
+            cursor.close()
+        except:
+            cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
+
         query = ("select Name from Users where Email=%s")
         cursor = cnx.cursor(dictionary=True)
         		
@@ -31,6 +40,15 @@ class GetUser(Resource):
 
 class AddUser(Resource):
     def post(self):
+        # do a simple query to check if MySQL connection is open
+        try:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("Select 1")
+            cursor.fetchall()
+            cursor.close()
+        except:
+            cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
+            
         #parser.add_argument('name', type=str)
         #parser.add_argument('email', type=str)
         #args = parser.parse_args()
