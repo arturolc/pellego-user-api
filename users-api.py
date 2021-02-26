@@ -73,7 +73,7 @@ class AddUser(Resource):
         
 
 api.add_resource(GetUser, "/user/<string:email>")
-api.add_resource(AddUser, '/', '/user/add')
+api.add_resource(AddUser, '/user/add')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port='5000')
