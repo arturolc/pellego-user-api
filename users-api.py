@@ -72,6 +72,51 @@ class AddUser(Resource):
             return [{'status' : 'Something went wrong'}]
         
 
+#Add a resource for getting a user intro status
+#Gets and returns the status of all the learning modules of a particular user
+class GetIntroStatus(Resource):
+    def get(self, email):
+        # do a simple query to check if MySQL connection is open
+        try:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("Select 1")
+            cursor.fetchall()
+            cursor.close()
+        except:
+            cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
+
+        query = ("select Name, Completed from LM_Module natural join LM_Intro natural join Intro_Status natural join Users where email=%s")
+        cursor = cnx.cursor(dictionary=True)
+        		
+        cursor.execute(query, (email,))
+        
+        result = cursor.fetchall()
+        cursor.close()
+        return json.loads(json.dumps(result))
+
+#Add a resource for getting a user LM_submodule status
+#Is a little more complicated then I thought
+class GetSubmoduleStatus(Resource):
+    def get(self, email):
+        # do a simple query to check if MySQL connection is open
+        try:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("Select 1")
+            cursor.fetchall()
+            cursor.close()
+        except:
+            cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
+
+        query = ("")
+        cursor = cnx.cursor(dictionary=True)
+        		
+        cursor.execute(query, (email,))
+        
+        result = cursor.fetchall()
+        cursor.close()
+        return json.loads(json.dumps(result))
+
+
 api.add_resource(GetUser, "/user/<string:email>")
 api.add_resource(AddUser, '/user/add')
 
