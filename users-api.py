@@ -69,7 +69,7 @@ class AddUser(Resource):
         except:
             cnx.rollback()
             cnx.close()
-            return ]{'status' : 'Something went wrong'}]
+            return [{'status' : 'Something went wrong'}]
         
 
 api.add_resource(GetUser, "/user/<string:email>")
