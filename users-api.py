@@ -65,11 +65,11 @@ class AddUser(Resource):
 
             cnx.commit()
             cursor.close()
-            return {'status' : 'User Added'}
+            return [{'status' : 'User Added'}]
         except:
             cnx.rollback()
             cnx.close()
-            return {'status' : 'Something went wrong'}
+            return ]{'status' : 'Something went wrong'}]
         
 
 api.add_resource(GetUser, "/user/<string:email>")
