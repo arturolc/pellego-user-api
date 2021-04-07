@@ -69,5 +69,26 @@ def verifyToken(token):
     print(claims)
     return claims
 
+class QuizResults(Resource):
+    def post(self, submodule_id):
+                #json_data = request.get_json(force=True)
+                #
+                #res = verifyToken(json_data['token'])
+                #if res is False:
+                #    return "401 Unauthorized", 401
+                res = request.get_json(force=True)
+                cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
+
+                cursor = cnx.cursor(dictionary=True)
+                cursor.execute(("select UID from Users where Email = %s"), (res['email'],))
+                userID = int(cursor.fetchall()[0]['UID'])
+                cursor.close()
+
+                cursor = cnx.cursor(dictionary=True)
+                query = ("insert ignore into ProgressCompleted (UID, SMID) values (%s, $s)")
+                cursor.execute(query, (userID, submodule_id))
+                cursor.close()
+
+api.add_resource(QuizResults, "/modules/submodules/<int:submodule_id>/")
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port='5000')
