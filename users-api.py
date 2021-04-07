@@ -86,9 +86,9 @@ class QuizResults(Resource):
 
                 cursor = cnx.cursor(dictionary=True)
                 query = ("insert ignore into ProgressCompleted (UID, SMID) values (%s, $s)")
-                cursor.execute(query, (userID, submodule_id))
+                cursor.execute(query, (userID, submodule_id,))
                 cursor.close()
 
-api.add_resource(QuizResults, "/modules/submodules/<int:submodule_id>/")
+api.add_resource(QuizResults, "/users/quiz_results/<int:submodule_id>/")
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port='5000')
