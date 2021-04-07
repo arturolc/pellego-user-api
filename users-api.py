@@ -13,9 +13,9 @@ import time
 import urllib.request
 import mysql.connector
 
-cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
 app = Flask(__name__)
 api = Api(app)
+
 region = 'us-west-2'
 userpool_id = 'us-west-2_AdDJsuC6f'
 app_client_id = 'o4uoksbrsfa78eo644tpf20um'
