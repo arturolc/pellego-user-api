@@ -89,6 +89,7 @@ class QuizResults(Resource):
                 cursor.execute(query, (userID, submodule_id,))
                 cursor.close()
 
+                cnx.commit()
                 cnx.close()
                 return "Success"
 
