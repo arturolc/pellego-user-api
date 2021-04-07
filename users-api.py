@@ -1,5 +1,5 @@
 """
-Joanna Lowry & Arturo Lara
+Joanna Lowry & Arturo Lara & Chris Bordoy
 
 Users API
 """
@@ -88,7 +88,8 @@ class QuizResults(Resource):
                 query = ("insert ignore into ProgressCompleted (UID, SMID) values (%s, $s)")
                 cursor.execute(query, (userID, submodule_id,))
                 cursor.close()
+                return "Success"
 
-api.add_resource(QuizResults, "/users/quiz_results/<int:submodule_id>/")
+api.add_resource(QuizResults, "/users/quiz_results/<int:submodule_id>")
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port='5000')
