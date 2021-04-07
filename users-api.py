@@ -88,6 +88,8 @@ class QuizResults(Resource):
                 query = ("insert ignore into ProgressCompleted (UID, SMID) values (%s, $s)")
                 cursor.execute(query, (userID, submodule_id,))
                 cursor.close()
+
+                cnx.close()
                 return "Success"
 
 api.add_resource(QuizResults, "/users/quiz_results/<int:submodule_id>")
