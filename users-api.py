@@ -94,7 +94,7 @@ class QuizResults(Resource):
         return "Success"
 
 class CompletionCount(Resource):
-    def post(self, module_id):
+    def post(self):
         #json_data = request.get_json(force=True)
         #
         #res = verifyToken(json_data['token'])
@@ -109,8 +109,8 @@ class CompletionCount(Resource):
         cursor.close()
 
         cursor = cnx.cursor(dictionary=True)
-        query = ("select Count(UID) as CompletionCount from ProgressCompleted where UID = %s AND MID = %s")
-        cursor.execute(query, (userID, module_id, ))
+        query = ("select MID, SMID from ProgressCompleted where UID = %s")
+        cursor.execute(query, (userID, ))
         result = cursor.fetchall()
         cursor.close()
 
@@ -118,6 +118,6 @@ class CompletionCount(Resource):
         return json.loads(json.dumps(result))
 
 api.add_resource(QuizResults, "/users/<int:module_id>/quiz_results/<int:submodule_id>")
-api.add_resource(CompletionCount, "/users/completion_count/<int:module_id>")
+api.add_resource(CompletionCount, "/users/completion_count")
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port='5000')
