@@ -110,7 +110,7 @@ class UserWordValues(Resource):
         cursor.close()
 
         cursor = cnx.cursor(dictionary=True)
-        query = ("insert ignore into ProgressCompleted (UID, WordsRead, WPM, Recorded) values (%s, %s, %s, %s)")
+        query = ("insert ignore into User_Word_Values (UID, WordsRead, WPM, Recorded) values (%s, %s, %s, %s)")
         cursor.execute(query, (userID, words_read, wpm, date.today(),))
         cursor.close()
 
