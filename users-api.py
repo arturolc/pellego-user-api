@@ -70,29 +70,54 @@ def verifyToken(token):
     return claims
 
 class QuizResults(Resource):
-    def post(self, submodule_id):
-                #json_data = request.get_json(force=True)
-                #
-                #res = verifyToken(json_data['token'])
-                #if res is False:
-                #    return "401 Unauthorized", 401
-                res = request.get_json(force=True)
-                cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
+    def post(self, module_id, submodule_id):
+        #json_data = request.get_json(force=True)
+        #
+        #res = verifyToken(json_data['token'])
+        #if res is False:
+        #    return "401 Unauthorized", 401
+        res = request.get_json(force=True)
+        cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
 
-                cursor = cnx.cursor(dictionary=True)
-                cursor.execute(("select UID from Users where Email = %s"), (res['email'],))
-                userID = int(cursor.fetchall()[0]['UID'])
-                cursor.close()
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(("select UID from Users where Email = %s"), (res['email'],))
+        userID = int(cursor.fetchall()[0]['UID'])
+        cursor.close()
 
-                cursor = cnx.cursor(dictionary=True)
-                query = ("insert ignore into ProgressCompleted (UID, SMID) values (%s, %s)")
-                cursor.execute(query, (userID, submodule_id,))
-                cursor.close()
+        cursor = cnx.cursor(dictionary=True)
+        query = ("insert ignore into ProgressCompleted (UID, SMID) values (%s, %s, %s)")
+        cursor.execute(query, (userID, module_id, submodule_id,))
+        cursor.close()
 
-                cnx.commit()
-                cnx.close()
-                return "Success"
+        cnx.commit()
+        cnx.close()
+        return "Success"
 
-api.add_resource(QuizResults, "/users/quiz_results/<int:submodule_id>")
+class CompletionCount(Resource):
+    def post(self, module_id):
+        #json_data = request.get_json(force=True)
+        #
+        #res = verifyToken(json_data['token'])
+        #if res is False:
+        #    return "401 Unauthorized", 401
+        res = request.get_json(force=True)
+        cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
+
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(("select UID from Users where Email = %s"), (res['email'],))
+        userID = int(cursor.fetchall()[0]['UID'])
+        cursor.close()
+
+        cursor = cnx.cursor(dictionary=True)
+        query = ("select Count(%s) from ProgressCompleted where MID = %s")
+        cursor.execute(query, (userID, module_id, ))
+        result = cursor.fetchall()
+        cursor.close()
+
+        cnx.close()
+        return json.loads(json.dumps(result))
+
+api.add_resource(QuizResults, "/users/<int:module_id>/quiz_results/<int:submodule_id>")
+api.add_resource(CompletionCount, "/users/completion_count/<int:module_id>")
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port='5000')
