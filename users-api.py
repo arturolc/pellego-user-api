@@ -85,7 +85,7 @@ class QuizResults(Resource):
         cursor.close()
 
         cursor = cnx.cursor(dictionary=True)
-        query = ("insert ignore into ProgressCompleted (UID, SMID) values (%s, %s, %s)")
+        query = ("insert ignore into ProgressCompleted (UID, MID, SMID) values (%s, %s, %s)")
         cursor.execute(query, (userID, module_id, submodule_id,))
         cursor.close()
 
