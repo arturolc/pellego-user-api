@@ -120,4 +120,4 @@ class CompletionCount(Resource):
 api.add_resource(QuizResults, "/users/<int:module_id>/quiz_results/<int:submodule_id>")
 api.add_resource(CompletionCount, "/users/completion_count")
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port='5000')
+    app.run(host="0.0.0.0", port='5001')
