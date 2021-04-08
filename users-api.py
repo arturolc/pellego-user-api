@@ -12,6 +12,7 @@ import json
 import time
 import urllib.request
 import mysql.connector
+import datetime
 
 app = Flask(__name__)
 api = Api(app)
@@ -93,6 +94,30 @@ class QuizResults(Resource):
         cnx.close()
         return "Success"
 
+class UserWordValues(Resource):
+    def post(self, words_read, wpm):
+        #json_data = request.get_json(force=True)
+        #
+        #res = verifyToken(json_data['token'])
+        #if res is False:
+        #    return "401 Unauthorized", 401
+        res = request.get_json(force=True)
+        cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
+
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(("select UID from Users where Email = %s"), (res['email'],))
+        userID = int(cursor.fetchall()[0]['UID'])
+        cursor.close()
+
+        cursor = cnx.cursor(dictionary=True)
+        query = ("insert ignore into ProgressCompleted (UID, WordsRead, WPM, Recorded) values (%s, %s, %s, %s)")
+        cursor.execute(query, (userID, words_read, wpm, datetime.date().now(),))
+        cursor.close()
+
+        cnx.commit()
+        cnx.close()
+        return "Success"
+
 class CompletionCount(Resource):
     def post(self):
         #json_data = request.get_json(force=True)
@@ -118,6 +143,7 @@ class CompletionCount(Resource):
         return json.loads(json.dumps(result))
 
 api.add_resource(QuizResults, "/users/<int:module_id>/quiz_results/<int:submodule_id>")
+api.add_resource(UserWordValues, "/users/<int:words_read>/<int:wpm>"
 api.add_resource(CompletionCount, "/users/completion_count")
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port='5001')
