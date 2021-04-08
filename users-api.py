@@ -109,7 +109,7 @@ class CompletionCount(Resource):
         cursor.close()
 
         cursor = cnx.cursor(dictionary=True)
-        query = ("select Count(%s) from ProgressCompleted where MID = %s")
+        query = ("select Count(UID) as CompletionCount from ProgressCompleted where UID = %s AND MID = %s")
         cursor.execute(query, (userID, module_id, ))
         result = cursor.fetchall()
         cursor.close()
