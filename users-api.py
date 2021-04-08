@@ -8,11 +8,11 @@ from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from jose import jwk, jwt
 from jose.utils import base64url_decode
+from datetime import date
 import json
 import time
 import urllib.request
 import mysql.connector
-import datetime
 
 app = Flask(__name__)
 api = Api(app)
@@ -111,7 +111,7 @@ class UserWordValues(Resource):
 
         cursor = cnx.cursor(dictionary=True)
         query = ("insert ignore into ProgressCompleted (UID, WordsRead, WPM, Recorded) values (%s, %s, %s, %s)")
-        cursor.execute(query, (userID, words_read, wpm, datetime.date().now(),))
+        cursor.execute(query, (userID, words_read, wpm, date.today(),))
         cursor.close()
 
         cnx.commit()
