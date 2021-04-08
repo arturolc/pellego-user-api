@@ -143,7 +143,7 @@ class CompletionCount(Resource):
         return json.loads(json.dumps(result))
 
 api.add_resource(QuizResults, "/users/<int:module_id>/quiz_results/<int:submodule_id>")
-api.add_resource(UserWordValues, "/users/<int:words_read>/<int:wpm>"
+api.add_resource(UserWordValues, "/users/<int:words_read>/<int:wpm>")
 api.add_resource(CompletionCount, "/users/completion_count")
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port='5001')
