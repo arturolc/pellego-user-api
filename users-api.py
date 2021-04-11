@@ -93,7 +93,7 @@ class Progress(Resource):
 
         cnx.commit()
         cnx.close()
-        return ret
+        return json.loads(json.dumps(ret))
 
 
 class QuizResults(Resource):
