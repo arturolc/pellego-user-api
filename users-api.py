@@ -13,6 +13,7 @@ import json
 import time
 import urllib.request
 import mysql.connector
+from datetime import datetime
 
 app = Flask(__name__)
 api = Api(app)
@@ -70,6 +71,13 @@ def verifyToken(token):
     print(claims)
     return claims
 
+def json_serial(obj):
+    """JSON serializer for objects not serializable by default json code"""
+
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    raise TypeError ("Type %s not serializable" % type(obj))
+
 class Progress(Resource):
     def post(self):
         #json_data = request.get_json(force=True)
@@ -93,7 +101,7 @@ class Progress(Resource):
 
         cnx.commit()
         cnx.close()
-        return json.loads(json.dumps(ret))
+        return json.loads(json.dumps(ret, default=json_serial))
 
 
 class QuizResults(Resource):
