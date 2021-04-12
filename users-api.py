@@ -8,11 +8,12 @@ from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from jose import jwk, jwt
 from jose.utils import base64url_decode
-from datetime import datetime, date
+from datetime import date
 import json
 import time
 import urllib.request
 import mysql.connector
+from datetime import date
 
 app = Flask(__name__)
 api = Api(app)
