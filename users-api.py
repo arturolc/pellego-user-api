@@ -197,7 +197,7 @@ class TodayProgressValues(Resource):
         cursor.close()
 
         cursor = cnx.cursor(dictionary=True)
-        query = ("select WordsRead, WPM from User_Word_Values where UID = %s and Recorded = %s)
+        query = ("select WordsRead, WPM from User_Word_Values where UID = %s and Recorded = %s")
         cursor.execute(query, (userID, date.today(),))
         result = cursor.fetchall()
         cursor.close()
