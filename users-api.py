@@ -8,12 +8,11 @@ from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from jose import jwk, jwt
 from jose.utils import base64url_decode
-from datetime import date
+from datetime import datetime, date
 import json
 import time
 import urllib.request
 import mysql.connector
-from datetime import datetime
 
 app = Flask(__name__)
 api = Api(app)
@@ -150,6 +149,8 @@ class UserWordValues(Resource):
 
         cursor = cnx.cursor(dictionary=True)
         query = ("insert ignore into User_Word_Values (UID, WordsRead, WPM, Recorded) values (%s, %s, %s, %s)")
+
+        #DATES ARE SAVED IN UTC TIMEZONE
         cursor.execute(query, (userID, words_read, wpm, date.today(),))
         cursor.close()
 
@@ -197,7 +198,7 @@ class TodayProgressValues(Resource):
         cursor.close()
 
         cursor = cnx.cursor(dictionary=True)
-        query = ("select WordsRead, WPM from User_Word_Values where UID = %s and Recorded = %s")
+        query = ("select round(AVG(WordsRead),0) as WordsRead, round(AVG(WPM),0) as WPM from User_Word_Values where UID = %s and Recorded = %s")
         cursor.execute(query, (userID, date.today(),))
         result = cursor.fetchall()
         cursor.close()
