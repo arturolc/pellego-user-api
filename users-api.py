@@ -205,7 +205,7 @@ class TodayProgressValues(Resource):
         cursor.close()
 
         cnx.close()
-        return json.loads(json.dumps(result))
+        return json.loads(json.dumps(result, default=json_serial))
 
 api.add_resource(QuizResults, "/users/<int:module_id>/quiz_results/<int:submodule_id>")
 api.add_resource(UserWordValues, "/users/<int:words_read>/<int:wpm>")
