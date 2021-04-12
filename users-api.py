@@ -88,14 +88,19 @@ class Progress(Resource):
         res = request.get_json(force=True)
         cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
         
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(("select UID from Users where Email = %s"), (res['email'],))
+        userID = int(cursor.fetchall()[0]['UID'])
+        cursor.close()
+
         ret = {}
         cursor = cnx.cursor(dictionary=True)
-        cursor.execute(("select * from User_Word_Values where Recorded > %s and UID = %s"), (res['date'], res["UID"],))
+        cursor.execute(("select * from User_Word_Values where Recorded > %s and UID = %s"), (res['date'], userID))
         ret['WPM'] = cursor.fetchall()
         cursor.close()
 
         cursor = cnx.cursor(dictionary=True)
-        cursor.execute(("select * from ProgressCompleted where UID = %s"), (res["UID"],))
+        cursor.execute(("select * from ProgressCompleted where UID = %s"), (userID,))
         ret['ProgressCompleted'] = cursor.fetchall()
         cursor.close()
 
