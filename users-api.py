@@ -202,7 +202,8 @@ class TodayProgressValues(Resource):
         query = ("select round(cast(AVG(WordsRead) as UNSIGNED),0) as WordsRead, round(cast(AVG(WPM) as UNSIGNED),0) as WPM from User_Word_Values where UID = %s and Recorded = %s")
 
         cursor.execute(query, (userID, date.today(),))
-        result = cursor.fetchall()
+        result = cursor.fetchone()
+        #res = {result}
         cursor.close()
 
         cnx.close()
