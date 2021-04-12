@@ -142,8 +142,33 @@ class CompletionCount(Resource):
         cnx.close()
         return json.loads(json.dumps(result))
 
+class TodayProgressValues(Resource):
+    def post(self, words_read, wpm):
+        #json_data = request.get_json(force=True)
+        #
+        #res = verifyToken(json_data['token'])
+        #if res is False:
+        #    return "401 Unauthorized", 401
+        res = request.get_json(force=True)
+        cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
+
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(("select UID from Users where Email = %s"), (res['email'],))
+        userID = int(cursor.fetchall()[0]['UID'])
+        cursor.close()
+
+        cursor = cnx.cursor(dictionary=True)
+        query = ("select WordsRead, WPM from User_Word_Values where UID = %s and Recorded = %s)
+        cursor.execute(query, (userID, date.today(),))
+        result = cursor.fetchall()
+        cursor.close()
+
+        cnx.close()
+        return json.loads(json.dumps(result))
+
 api.add_resource(QuizResults, "/users/<int:module_id>/quiz_results/<int:submodule_id>")
 api.add_resource(UserWordValues, "/users/<int:words_read>/<int:wpm>")
 api.add_resource(CompletionCount, "/users/completion_count")
+api.add_resource(TodayProgressValues, "/users/today_progress_values")
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port='5001')
