@@ -182,7 +182,7 @@ class CompletionCount(Resource):
         return json.loads(json.dumps(result))
 
 class TodayProgressValues(Resource):
-    def post(self, words_read, wpm):
+    def post(self):
         #json_data = request.get_json(force=True)
         #
         #res = verifyToken(json_data['token'])
