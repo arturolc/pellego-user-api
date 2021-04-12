@@ -9,12 +9,11 @@ from flask_restful import Resource, Api, reqparse
 from jose import jwk, jwt
 from jose.utils import base64url_decode
 from datetime import date
-from decimal import Decimal
 import json
 import time
 import urllib.request
 import mysql.connector
-from datetime import date
+from datetime import datetime
 
 app = Flask(__name__)
 api = Api(app)
@@ -208,7 +207,7 @@ class TodayProgressValues(Resource):
         cursor.close()
 
         cnx.close()
-        return json.loads(json.dumps(Decimal(result)))
+        return json.loads(json.dumps(result))
 
 api.add_resource(QuizResults, "/users/<int:module_id>/quiz_results/<int:submodule_id>")
 api.add_resource(UserWordValues, "/users/<int:words_read>/<int:wpm>")
