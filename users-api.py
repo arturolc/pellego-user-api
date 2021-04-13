@@ -207,7 +207,7 @@ class ProgressValues(Resource):
         for item in range(1,13):
             cursor = cnx.cursor(dictionary=True)
             query = ("select WordsRead, WPM, Recorded from User_Word_Values where UID = %s and Recorded between date_sub(now(), Interval %s month) and now()")
-            cursor.execute(query, (userID,))
+            cursor.execute(query, (userID, item))
             result = cursor.fetchall()
             cursor.close()
 
