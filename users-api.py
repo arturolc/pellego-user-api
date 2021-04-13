@@ -182,7 +182,7 @@ class CompletionCount(Resource):
         cnx.close()
         return json.loads(json.dumps(result))
 
-class TodayProgressValues(Resource):
+class ProgressValues(Resource):
     def post(self):
         #json_data = request.get_json(force=True)
         #
@@ -212,7 +212,7 @@ api.add_resource(QuizResults, "/users/<int:module_id>/quiz_results/<int:submodul
 api.add_resource(UserWordValues, "/users/<int:words_read>/<int:wpm>")
 api.add_resource(CompletionCount, "/users/completion_count")
 #api.add_resource(Progress, "/users/progress")
-api.add_resource(TodayProgressValues, "/users/today_progress_values")
+api.add_resource(TodayProgressValues, "/users/progress_values")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port='5001')
