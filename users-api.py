@@ -199,8 +199,8 @@ class ProgressValues(Resource):
 
         currDate = datetime.now()
         cursor = cnx.cursor(dictionary=True)
-        query = ("select WordsRead, WPM, Recorded from User_Word_Values where UID = %s and Recorded between date_sub(currDate, Interval 1 day) and currDate")
-        cursor.execute(query, (userID, ))
+        query = ("select WordsRead, WPM, Recorded from User_Word_Values where UID = %s and Recorded between date_sub(%s, Interval 1 day) and %s")
+        cursor.execute(query, (userID, currDate, currDate))
         result = cursor.fetchall()
         cursor.close()
 
