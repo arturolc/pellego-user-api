@@ -202,7 +202,6 @@ class ProgressValues(Resource):
 
         cursor.execute(query, (userID,))
         result = cursor.fetchall()
-        print(result)
         cursor.close()
 
         cnx.close()
