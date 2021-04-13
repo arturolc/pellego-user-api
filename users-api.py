@@ -198,12 +198,11 @@ class TodayProgressValues(Resource):
         cursor.close()
 
         cursor = cnx.cursor(dictionary=True)
-        query = ("select round(cast(AVG(WordsRead) as UNSIGNED),0) as WordsRead, round(cast(AVG(WPM) as UNSIGNED),0) as WPM from User_Word_Values where UID = %s and Recorded = now()")
+        query = ("select WordsRead, WPM, Recorded from User_Word_Values where UID = %s and Recorded between date_sub(now(), Interval 1 year) and now()")
 
         cursor.execute(query, (userID,))
-        result = cursor.fetchone()
+        result = cursor.fetchall()
         print(result)
-        #res = {result}
         cursor.close()
 
         cnx.close()
