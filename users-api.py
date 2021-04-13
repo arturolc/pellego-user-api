@@ -209,15 +209,17 @@ class ProgressValues(Resource):
             cursor = cnx.cursor(dictionary=True)
             query = ("select round(cast(avg(WordsRead) as UNSIGNED), 0) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Recorded = %s")
             currDate -= timedelta(days=1)
-            print(date.today() - relativedelta(months=1))
             cursor.execute(query, (userID, currDate))
             result += cursor.fetchall()
             cursor.close()
 
+        currMonth = date.today()
         for item in range(1,13):
             cursor = cnx.cursor(dictionary=True)
-            query = ("select round(cast(avg(WordsRead) as UNSIGNED), 0) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Recorded between date_sub(now(), Interval %s month) and now()")
-            cursor.execute(query, (userID, item))
+            query = ("select round(cast(avg(WordsRead) as UNSIGNED), 0) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Month(Recorded) = Month(%s)")
+            cursor.execute(query, (userID, currMonth))
+            print(currMonth)
+            currMonth -= relativedelta(months=1))
             result += cursor.fetchall()
             cursor.close()
 
