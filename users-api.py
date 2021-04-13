@@ -208,7 +208,7 @@ class ProgressValues(Resource):
         query = ("select WordsRead, WPM, Recorded from User_Word_Values where UID = %s and Recorded between date_sub(now(), Interval 1 year) and now()")
 
         cursor.execute(query, (userID,))
-        result[0].append(cursor.fetchall())
+        result += cursor.fetchall()
         cursor.close()
 
         cnx.close()
