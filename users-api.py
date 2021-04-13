@@ -199,7 +199,7 @@ class ProgressValues(Resource):
 
         currDate = datetime.now()
         cursor = cnx.cursor(dictionary=True)
-        query = ("selectround(cast(avg(WordsRead) as UNSIGNED), 0) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Recorded between date_sub(%s, Interval 1 day) and %s")
+        query = ("select round(cast(avg(WordsRead) as UNSIGNED), 0) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Recorded between date_sub(%s, Interval 1 day) and %s")
         cursor.execute(query, (userID, currDate, currDate))
         result = cursor.fetchall()
         cursor.close()
