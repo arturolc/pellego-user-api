@@ -203,6 +203,7 @@ class TodayProgressValues(Resource):
 
         cursor.execute(query, (userID, date.today(),))
         result = cursor.fetchone()
+        print(result)
         #res = {result}
         cursor.close()
 
