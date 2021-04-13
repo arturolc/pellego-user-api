@@ -13,6 +13,7 @@ import simplejson as json
 import time
 import urllib.request
 import mysql.connector
+from dateutil.relativedelta import relativedelta
 
 app = Flask(__name__)
 api = Api(app)
@@ -208,7 +209,7 @@ class ProgressValues(Resource):
             cursor = cnx.cursor(dictionary=True)
             query = ("select round(cast(avg(WordsRead) as UNSIGNED), 0) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Recorded = %s")
             currDate -= timedelta(days=1)
-            print(date.today().month - timedelta(months=1))
+            print(date.today().month - relativedelta(months=-1))
             cursor.execute(query, (userID, currDate))
             result += cursor.fetchall()
             cursor.close()
