@@ -200,14 +200,14 @@ class ProgressValues(Resource):
         for item in range(1, 8):
             cursor = cnx.cursor(dictionary=True)
             query = ("select round(cast(avg(WordsRead) as UNSIGNED), 0) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Recorded between date_sub(now(), Interval %s day) and now()")
-            cursor.execute(query, (userID, item))
+            cursor.execute(query, (userID, item),)
             result = cursor.fetchall()
             cursor.close()
 
         for item in range(1,13):
             cursor = cnx.cursor(dictionary=True)
             query = ("select round(cast(avg(WordsRead) as UNSIGNED), 0) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Recorded between date_sub(now(), Interval %s month) and now()")
-            cursor.execute(query, (userID, item))
+            cursor.execute(query, (userID, item),)
             result += cursor.fetchall()
             cursor.close()
 
