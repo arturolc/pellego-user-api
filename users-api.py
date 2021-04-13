@@ -204,6 +204,13 @@ class ProgressValues(Resource):
             result = cursor.fetchall()
             cursor.close()
 
+        for item in range(1,13):
+            cursor = cnx.cursor(dictionary=True)
+            query = ("select WordsRead, WPM, Recorded from User_Word_Values where UID = %s and Recorded between date_sub(now(), Interval %s month) and now()")
+            cursor.execute(query, (userID,))
+            result = cursor.fetchall()
+            cursor.close()
+
         cnx.close()
         return json.loads(json.dumps(result, indent=4, sort_keys=True, default=str))
 
