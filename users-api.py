@@ -200,8 +200,8 @@ class TodayProgressValues(Resource):
         cursor = cnx.cursor(dictionary=True)
         query = ("select round(cast(AVG(WordsRead) as UNSIGNED),0) as WordsRead, round(cast(AVG(WPM) as UNSIGNED),0) as WPM from User_Word_Values where UID = %s and Recorded = %s")
 
-        cursor.execute(query, (userID, date.today() - timedelta(day=1),))
-        print(date.today() - timedelta(day=1))
+        cursor.execute(query, (userID, date.today() - timedelta(days=1),))
+        print(date.today() - timedelta(days=1))
         result = cursor.fetchone()
         print(result)
         #res = {result}
