@@ -197,11 +197,11 @@ class TodayProgressValues(Resource):
         cursor.execute(("select UID from Users where Email = %s"), (res['email'],))
         userID = int(cursor.fetchall()[0]['UID'])
         cursor.close()
-
+        python3
         cursor = cnx.cursor(dictionary=True)
         query = ("select round(cast(AVG(WordsRead) as UNSIGNED),0) as WordsRead, round(cast(AVG(WPM) as UNSIGNED),0) as WPM from User_Word_Values where UID = %s and Recorded = %s")
 
-        cursor.execute(query, (userID, date.today(),))
+        cursor.execute(query, (userID, date.today() - timedelta(hours=6),))
         result = cursor.fetchone()
         print(result)
         #res = {result}
