@@ -254,7 +254,7 @@ api.add_resource(UserWordValues, "/users/<int:words_read>/<int:wpm>")
 api.add_resource(CompletionCount, "/users/completion_count")
 #api.add_resource(Progress, "/users/progress")
 api.add_resource(ProgressValues, "/users/progress_values")
-api.add_resource(TotalWordsRead, "/users/profile/total_words_read"
+api.add_resource(TotalWordsRead, "/users/profile/total_words_read")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port='5001')
