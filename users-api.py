@@ -78,6 +78,31 @@ def json_serial(obj):
        return obj.isoformat()
    raise TypeError ("Type %s not serializable" % type(obj))
 
+class ProgressLastDate(Resource):
+    def post(self):
+         # json_data = request.get_json(force=True)
+        
+        # res = verifyToken(json_data['token'])
+        # if res is False:
+        #    return "401 Unauthorized", 401 
+        res = request.get_json(force=True)
+        cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
+        
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(("select UID from Users where Email = %s"), (res['email'],))
+        userID = int(cursor.fetchall()[0]['UID'])
+        cursor.close()
+
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(("select Recorded as date from User_Word_Values where UID = %s order by Recorded desc limit 1"))
+        result = cursor.fetchone()
+        cursor.close()
+
+        cnx.commit()
+        cnx.close()
+        return json.loads(json.dumps(ret, default=json_serial))
+        
+
 class Progress(Resource):
     def post(self):
         # json_data = request.get_json(force=True)
@@ -244,6 +269,7 @@ class TotalWordsRead(Resource):
         cnx.close()
         return json.loads(json.dumps(result))
 
+api.add_resource(ProgressLastDate, '/users/progress/last')
 api.add_resource(QuizResults, "/users/<int:module_id>/quiz_results/<int:submodule_id>")
 api.add_resource(UserWordValues, "/users/<int:words_read>/<int:wpm>")
 api.add_resource(CompletionCount, "/users/completion_count")
