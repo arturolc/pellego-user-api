@@ -71,42 +71,42 @@ def verifyToken(token):
     print(claims)
     return claims
 
-#ef json_serial(obj):
- #   """JSON serializer for objects not serializable by default json code"""
+def json_serial(obj):
+   """JSON serializer for objects not serializable by default json code"""
 
-  #  if isinstance(obj, (datetime, date)):
-   #     return obj.isoformat()
-   # raise TypeError ("Type %s not serializable" % type(obj))
+   if isinstance(obj, (datetime, date)):
+       return obj.isoformat()
+   raise TypeError ("Type %s not serializable" % type(obj))
 
-#class Progress(Resource):
-    #def post(self):
-        #json_data = request.get_json(force=True)
-        #
-        #res = verifyToken(json_data['token'])
-        #if res is False:
-        #    return "401 Unauthorized", 401
-     #   res = request.get_json(force=True)
-     #  cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
+class Progress(Resource):
+    def post(self):
+        json_data = request.get_json(force=True)
+        
+        res = verifyToken(json_data['token'])
+        if res is False:
+           return "401 Unauthorized", 401
+        res = request.get_json(force=True)
+        cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
 
-     #   cursor = cnx.cursor(dictionary=True)
-     #   cursor.execute(("select UID from Users where Email = %s"), (res['email'],))
-     #   userID = int(cursor.fetchall()[0]['UID'])
-     #   cursor.close()
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(("select UID from Users where Email = %s"), (res['email'],))
+        userID = int(cursor.fetchall()[0]['UID'])
+        cursor.close()
 
-     #   ret = {}
-     #   cursor = cnx.cursor(dictionary=True)
-     #   cursor.execute(("select * from User_Word_Values where Recorded > %s and UID = %s"), (res['date'], userID))
-     #   ret['WPM'] = cursor.fetchall()
-     #   cursor.close()
+        ret = {}
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(("select * from User_Word_Values where Recorded > %s and UID = %s"), (res['date'], userID))
+        ret['WPM'] = cursor.fetchall()
+        cursor.close()
 
-     #   cursor = cnx.cursor(dictionary=True)
-     #   cursor.execute(("select * from ProgressCompleted where UID = %s"), (userID,))
-     #   ret['ProgressCompleted'] = cursor.fetchall()
-     #   cursor.close()
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(("select * from ProgressCompleted where UID = %s"), (userID,))
+        ret['ProgressCompleted'] = cursor.fetchall()
+        cursor.close()
 
-     #   cnx.commit()
-     #   cnx.close()
-     #   return json.loads(json.dumps(ret, use_decimal=True))
+        cnx.commit()
+        cnx.close()
+        return json.loads(json.dumps(ret, use_decimal=True))
 
 
 class QuizResults(Resource):
@@ -252,7 +252,7 @@ class TotalWordsRead(Resource):
 api.add_resource(QuizResults, "/users/<int:module_id>/quiz_results/<int:submodule_id>")
 api.add_resource(UserWordValues, "/users/<int:words_read>/<int:wpm>")
 api.add_resource(CompletionCount, "/users/completion_count")
-#api.add_resource(Progress, "/users/progress")
+api.add_resource(Progress, "/users/progress")
 api.add_resource(ProgressValues, "/users/progress_values")
 api.add_resource(TotalWordsRead, "/users/profile/total_words_read")
 
