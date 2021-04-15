@@ -94,7 +94,7 @@ class ProgressLastDate(Resource):
         cursor.close()
 
         cursor = cnx.cursor(dictionary=True)
-        cursor.execute(("select Recorded as date from User_Word_Values where UID = %s order by Recorded desc limit 1"))
+        cursor.execute(("select Recorded as date from User_Word_Values where UID = %s order by Recorded desc limit 1"), (userID,))
         result = cursor.fetchone()
         cursor.close()
 
