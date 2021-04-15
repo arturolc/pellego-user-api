@@ -80,11 +80,11 @@ def json_serial(obj):
 
 class Progress(Resource):
     def post(self):
-        json_data = request.get_json(force=True)
+        # json_data = request.get_json(force=True)
         
-        res = verifyToken(json_data['token'])
-        if res is False:
-           return "401 Unauthorized", 401
+        # res = verifyToken(json_data['token'])
+        # if res is False:
+        #    return "401 Unauthorized", 401
         res = request.get_json(force=True)
         cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
 
