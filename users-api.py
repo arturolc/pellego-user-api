@@ -84,7 +84,7 @@ class Progress(Resource):
         
         # res = verifyToken(json_data['token'])
         # if res is False:
-        #    return "401 Unauthorized", 401
+        #    return "401 Unauthorized", 401 
         res = request.get_json(force=True)
         cnx = mysql.connector.connect(user='admin', password='capstone', host='pellego-db.cdkdcwucys6e.us-west-2.rds.amazonaws.com', database='pellego_database')
 
@@ -96,12 +96,7 @@ class Progress(Resource):
         ret = {}
         cursor = cnx.cursor(dictionary=True)
         cursor.execute(("select * from User_Word_Values where Recorded > %s and UID = %s"), (res['date'], userID))
-        ret['WPM'] = cursor.fetchall()
-        cursor.close()
-
-        cursor = cnx.cursor(dictionary=True)
-        cursor.execute(("select * from ProgressCompleted where UID = %s"), (userID,))
-        ret['ProgressCompleted'] = cursor.fetchall()
+        ret['values'] = cursor.fetchall()
         cursor.close()
 
         cnx.commit()
