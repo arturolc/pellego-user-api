@@ -225,7 +225,7 @@ class ProgressValues(Resource):
         result = cursor.fetchone()
         print(result)
         print(result["WordsRead"] == None)
-        if result == None:
+        if result["WordsRead"] == None:
             set = {"WordsRead": 0, "WPM": 0, "Recorded": currDate}
             result = json.dumps(set)
             print(result)
