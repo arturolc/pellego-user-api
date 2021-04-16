@@ -224,8 +224,9 @@ class ProgressValues(Resource):
         cursor.execute(query, (userID, currDate))
         result = cursor.fetchone()
         print(result)
+        print(result == None)
         if result == None:
-            set = {"Recorded": currDate, "WPM": 0, "WordsRead": 0}
+            set = {"WordsRead": 0, "WPM": 0, "Recorded": currDate}
             result = json.dumps(set)
             print(result)
         cursor.close()
