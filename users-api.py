@@ -224,12 +224,12 @@ class ProgressValues(Resource):
         cursor.execute(query, (userID, currDate))
         result = cursor.fetchall()
         print(result)
-        print(result[0])
-        print(result[0]["WordsRead"])
-        print(result[0] == None)
-        if result[0]["WordsRead"] == None:
-            set = {"WordsRead": 0, "WPM": 0, "Recorded": currDate.strftime("%Y/%m/%d")}
-            result[0] = json.dumps(set)
+        print(result[0]['WordsRead' == None)
+        if result[0]['WordsRead'] == None:
+            #set = {"WordsRead": 0, "WPM": 0, "Recorded": currDate.strftime("%Y/%m/%d")}
+            result[0]['WordsRead'] = 0
+            result[0]['WPM'] = 0
+            result[0]['Recorded'] = currDate.strftime("%Y/%m/%d")
             print(result[0])
         cursor.close()
 
