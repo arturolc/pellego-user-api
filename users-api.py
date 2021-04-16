@@ -226,7 +226,7 @@ class ProgressValues(Resource):
         if result[0]['WordsRead'] == None:
             result[0]['WordsRead'] = 0
             result[0]['WPM'] = 0
-            result[0]['Recorded'] = currDate.strftime("%Y/%m/%d")
+            result[0]['Recorded'] = currDate.strftime("%Y-%m-%d")
         cursor.close()
 
         for item in range(1, 7):
@@ -238,7 +238,7 @@ class ProgressValues(Resource):
             if result[item]['WordsRead'] == None:
                 result[item]['WordsRead'] = 0
                 result[item]['WPM'] = 0
-                result[item]['Recorded'] = currDate.strftime("%Y/%m/%d")
+                result[item]['Recorded'] = currDate.strftime("%Y-%m-%d")
             cursor.close()
 
         currMonth = date.today()
@@ -251,7 +251,7 @@ class ProgressValues(Resource):
             if result[item]['WordsRead'] == None:
                 result[item]['WordsRead'] = 0
                 result[item]['WPM'] = 0
-                result[item]['Recorded'] = currMonth.strftime("%Y/%m/%d")
+                result[item]['Recorded'] = currMonth.strftime("%Y-%m-%d")
             cursor.close()
 
         cnx.close()
