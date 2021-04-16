@@ -227,7 +227,6 @@ class ProgressValues(Resource):
             result[0]['WordsRead'] = 0
             result[0]['WPM'] = 0
             result[0]['Recorded'] = currDate.strftime("%Y/%m/%d")
-            print(result[0])
         cursor.close()
 
         for item in range(1, 7):
@@ -240,7 +239,6 @@ class ProgressValues(Resource):
                 result[item]['WordsRead'] = 0
                 result[item]['WPM'] = 0
                 result[item]['Recorded'] = currDate.strftime("%Y/%m/%d")
-                print(result[0])
             cursor.close()
 
         currMonth = date.today()
@@ -254,7 +252,6 @@ class ProgressValues(Resource):
                 result[item]['WordsRead'] = 0
                 result[item]['WPM'] = 0
                 result[item]['Recorded'] = currMonth.strftime("%Y/%m/%d")
-                print(result[0])
             cursor.close()
 
         cnx.close()
