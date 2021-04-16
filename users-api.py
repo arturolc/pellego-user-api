@@ -242,7 +242,7 @@ class ProgressValues(Resource):
             cursor.close()
 
         currMonth = date.today()
-        for item in range(1,13):
+        for item in range(7,19):
             cursor = cnx.cursor(dictionary=True)
             query = ("select sum(WordsRead) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Month(Recorded) = Month(%s)")
             cursor.execute(query, (userID, currMonth))
