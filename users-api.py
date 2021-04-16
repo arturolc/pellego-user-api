@@ -245,15 +245,14 @@ class ProgressValues(Resource):
         for item in range(7,19):
             cursor = cnx.cursor(dictionary=True)
             query = ("select sum(WordsRead) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Month(Recorded) = Month(%s)")
-            currMonth -= relativedelta(months=1)
-            cursor.execute(query, (userID, currMonth))
-            
+            cursor.execute(query, (userID, currMonth))     
             result += cursor.fetchall()
             if result[item]['WordsRead'] == None:
                 result[item]['WordsRead'] = 0
                 result[item]['WPM'] = 0
                 result[item]['Recorded'] = currMonth.strftime("%Y-%m-%d")
             cursor.close()
+            currMonth -= relativedelta(months=1)
 
         cnx.close()
         return json.loads(json.dumps(result, indent=4, sort_keys=True, default=str))
