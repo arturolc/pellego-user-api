@@ -250,6 +250,11 @@ class ProgressValues(Resource):
             cursor.execute(query, (userID, currMonth))
             currMonth -= relativedelta(months=1)
             result += cursor.fetchall()
+            if result[item]['WordsRead'] == None:
+                result[item]['WordsRead'] = 0
+                result[item]['WPM'] = 0
+                result[item]['Recorded'] = currMonth.strftime("%Y/%m/%d")
+                print(result[0])
             cursor.close()
 
         cnx.close()
