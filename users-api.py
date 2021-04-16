@@ -220,7 +220,7 @@ class ProgressValues(Resource):
 
         currDate = date.today()
         cursor = cnx.cursor(dictionary=True)
-        query = ("select round(cast(avg(WordsRead) as UNSIGNED), 0) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Recorded = %s")
+        query = ("select sum(WordsRead) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Recorded = %s")
         cursor.execute(query, (userID, currDate))
         result = cursor.fetchall()
         if result[0]['WordsRead'] == None:
@@ -231,7 +231,7 @@ class ProgressValues(Resource):
 
         for item in range(1, 7):
             cursor = cnx.cursor(dictionary=True)
-            query = ("select round(cast(avg(WordsRead) as UNSIGNED), 0) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Recorded = %s")
+            query = ("select sum(WordsRead) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Recorded = %s")
             currDate -= timedelta(days=1)
             cursor.execute(query, (userID, currDate))
             result += cursor.fetchall()
@@ -244,7 +244,7 @@ class ProgressValues(Resource):
         currMonth = date.today()
         for item in range(1,13):
             cursor = cnx.cursor(dictionary=True)
-            query = ("select round(cast(avg(WordsRead) as UNSIGNED), 0) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Month(Recorded) = Month(%s)")
+            query = ("select sum(WordsRead) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Month(Recorded) = Month(%s)")
             cursor.execute(query, (userID, currMonth))
             currMonth -= relativedelta(months=1)
             result += cursor.fetchall()
