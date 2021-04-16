@@ -227,7 +227,7 @@ class ProgressValues(Resource):
         print(result["WordsRead"] == None)
         if result["WordsRead"] == None:
             set = {"WordsRead": 0, "WPM": 0, "Recorded": currDate.strftime("%Y/%m/%d")}
-            result = set
+            result = result.update(set)
             print(result)
         cursor.close()
 
