@@ -218,7 +218,7 @@ class ProgressValues(Resource):
         userID = int(cursor.fetchall()[0]['UID'])
         cursor.close()
 
-        currDate = datetime.datetime.utcnow().date()
+        currDate = datetime.utcnow().date()
         cursor = cnx.cursor(dictionary=True)
         query = ("select sum(WordsRead) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Recorded = %s")
         cursor.execute(query, (userID, currDate))
@@ -241,7 +241,7 @@ class ProgressValues(Resource):
                 result[item]['Recorded'] = currDate.strftime("%Y-%m-%d")
             cursor.close()
 
-        currMonth = datetime.datetime.utcnow().date()
+        currMonth = datetime.utcnow().date()
         for item in range(7,19):
             cursor = cnx.cursor(dictionary=True)
             query = ("select sum(WordsRead) as WordsRead, round(cast(avg(WPM) as UNSIGNED), 0) as WPM, Recorded from User_Word_Values where UID = %s and Month(Recorded) = Month(%s)")
